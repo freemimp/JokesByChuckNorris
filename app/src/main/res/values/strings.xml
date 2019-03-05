@@ -1,0 +1,6 @@
+<resources>
+    <string name="app_name">JokesByChuckNorris</string>
+    <string name="random_joke">Random Joke</string>
+    <string name="random_joke_with_name">Joke with custom name</string>
+    <string name="list_of_jokes">List of infinite jokes</string>
+</resources>
