@@ -5,6 +5,7 @@ import android.arch.lifecycle.ViewModelProvider
 import com.freemimp.android.jokesbychucknorris.di.annotations.ViewModelKey
 import com.freemimp.android.jokesbychucknorris.mvvm.ViewModelFactory
 import com.freemimp.android.jokesbychucknorris.ui.home.HomeViewModel
+import com.freemimp.android.jokesbychucknorris.ui.namedjoke.NamedJokeViewModel
 import dagger.Binds
 import dagger.Module
 import dagger.multibindings.IntoMap
@@ -18,4 +19,9 @@ abstract class ViewModelModule {
     @Binds
     @ViewModelKey(HomeViewModel::class)
     abstract fun bindHomeViewModel(homeViewModel: HomeViewModel): ViewModel
+
+    @IntoMap
+    @Binds
+    @ViewModelKey(NamedJokeViewModel::class)
+    abstract fun bindNamedJokeViewModel(namedJokeViewModel: NamedJokeViewModel): ViewModel
 }
