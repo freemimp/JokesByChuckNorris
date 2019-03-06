@@ -7,7 +7,7 @@ import javax.inject.Inject
 
 class NamedJokeViewModel @Inject constructor(private val namedRandomJokeController: NamedRandomJokeController) : ViewModel() {
 
-    var errorResponse = MutableLiveData<String?>()
+    var errorResponse = MutableLiveData<String>()
 
     suspend fun getNamedRandomJoke(name: String): String {
         val firstName = name.trim().substringBeforeLast(" ").capitalize()

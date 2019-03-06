@@ -1,5 +1,6 @@
 package com.freemimp.android.jokesbychucknorris.ui.namedjoke
 
+import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -27,6 +28,15 @@ class NamedJokeFragment : DaggerFragment() {
     lateinit var viewModelFactory: ViewModelFactory
 
     private lateinit var viewModel: NamedJokeViewModel
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        viewModel.errorResponse.observe(this, Observer { errorResponse ->
+            errorResponse?.let {
+                snackbar(errorResponse)
+            }
+        })
+    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {

@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import com.freemimp.android.jokesbychucknorris.R
 import com.freemimp.android.jokesbychucknorris.mvvm.ViewModelFactory
+import com.freemimp.android.jokesbychucknorris.ui.listofjokes.ListOfJokesFragment
 import com.freemimp.android.jokesbychucknorris.ui.namedjoke.NamedJokeFragment
 import com.freemimp.android.jokesbychucknorris.utils.replaceFragment
 import com.freemimp.android.jokesbychucknorris.utils.showJokeDialog
@@ -76,7 +77,7 @@ class HomeFragment : DaggerFragment() {
     }
 
     private fun goToListOfInfiniteJokes() {
-        toast("list is opened")
+       replaceFragment(R.id.container, ListOfJokesFragment.newInstance(), ListOfJokesFragment.Tag)
     }
 
     companion object {

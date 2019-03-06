@@ -4,6 +4,7 @@ import android.content.Context
 import android.util.Log
 import com.freemimp.android.jokesbychucknorris.BuildConfig
 import com.freemimp.android.jokesbychucknorris.di.annotations.AppContext
+import com.freemimp.android.jokesbychucknorris.restapi.ListOfJokesController
 import com.freemimp.android.jokesbychucknorris.restapi.NamedRandomJokeController
 import com.freemimp.android.jokesbychucknorris.restapi.RandomJokeController
 import com.freemimp.android.jokesbychucknorris.utils.Constants
@@ -66,8 +67,11 @@ class NetworkModule {
     }
 
     @Provides
-    fun providesBookInController(retrofit: Retrofit) = retrofit.create(RandomJokeController::class.java)
+    fun providesRandomJokeController(retrofit: Retrofit): RandomJokeController = retrofit.create(RandomJokeController::class.java)
 
     @Provides
-    fun providesStorageAllocationController(retrofit: Retrofit) = retrofit.create(NamedRandomJokeController::class.java)
+    fun providesNamedRandomJokeController(retrofit: Retrofit): NamedRandomJokeController = retrofit.create(NamedRandomJokeController::class.java)
+
+    @Provides
+    fun providesListOfJokesController(retrofit: Retrofit): ListOfJokesController = retrofit.create(ListOfJokesController::class.java)
 }
