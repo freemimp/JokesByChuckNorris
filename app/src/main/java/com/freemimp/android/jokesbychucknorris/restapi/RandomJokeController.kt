@@ -8,5 +8,5 @@ import retrofit2.http.GET
 interface RandomJokeController {
 
     @GET("random/")
-    fun getRandomJoke(): Deferred<Value>
+    fun getRandomJokeAsync(): Deferred<RandomJokeModel>
 }

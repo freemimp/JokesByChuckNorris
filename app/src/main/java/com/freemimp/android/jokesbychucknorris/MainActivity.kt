@@ -1,10 +1,10 @@
 package com.freemimp.android.jokesbychucknorris
 
-import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import com.freemimp.android.jokesbychucknorris.ui.home.HomeFragment
+import dagger.android.support.DaggerAppCompatActivity
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : DaggerAppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

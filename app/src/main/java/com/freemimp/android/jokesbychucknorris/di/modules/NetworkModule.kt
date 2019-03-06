@@ -8,7 +8,7 @@ import com.freemimp.android.jokesbychucknorris.restapi.NamedRandomJokeController
 import com.freemimp.android.jokesbychucknorris.restapi.RandomJokeController
 import com.freemimp.android.jokesbychucknorris.utils.Constants
 import com.google.gson.Gson
-import com.jakewharton.retrofit2.adapter.kotlin.coroutines.experimental.CoroutineCallAdapterFactory
+import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
 import dagger.Lazy
 import dagger.Module
 import dagger.Provides

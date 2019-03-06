@@ -4,4 +4,4 @@ import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 
 data class RandomJokeModel(@SerializedName("type") @Expose val type: String,
-                           @SerializedName("value") @Expose val value : String)
+                           @SerializedName("value") @Expose val value : Value)

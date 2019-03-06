@@ -7,6 +7,6 @@ import javax.inject.Inject
 class HomeViewModel @Inject constructor(private val randomJokeController: RandomJokeController) : ViewModel() {
 
     suspend fun getRandomJoke(): String {
-        return randomJokeController.getRandomJoke().await().joke
+        return randomJokeController.getRandomJokeAsync().await().value.joke
     }
 }

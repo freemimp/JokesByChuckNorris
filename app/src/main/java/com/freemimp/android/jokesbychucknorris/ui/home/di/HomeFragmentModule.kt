@@ -14,9 +14,4 @@ abstract class HomeFragmentModule {
     @ContributesAndroidInjector
     abstract fun findHomeFragment(): HomeFragment
 
-    @IntoMap
-    @Binds
-    @ViewModelKey(HomeViewModel::class)
-    abstract fun bindHomeViewModel(homeViewModel: HomeViewModel): ViewModel
-
 }
