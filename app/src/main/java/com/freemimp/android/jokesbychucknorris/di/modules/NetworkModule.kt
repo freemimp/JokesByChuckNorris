@@ -7,7 +7,6 @@ import com.freemimp.android.jokesbychucknorris.di.annotations.AppContext
 import com.freemimp.android.jokesbychucknorris.restapi.ListOfJokesApi
 import com.freemimp.android.jokesbychucknorris.restapi.NamedRandomJokeApi
 import com.freemimp.android.jokesbychucknorris.restapi.RandomJokeApi
-import com.freemimp.android.jokesbychucknorris.utils.Constants
 import com.google.gson.Gson
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
 import dagger.Lazy
@@ -42,8 +41,8 @@ class NetworkModule {
         return OkHttpClient.Builder()
                 .addInterceptor(httpLoggingInterceptor)
                 .cache(cache)
-                .connectTimeout(Constants.CONNECTION_TIMEOUT, TimeUnit.SECONDS)
-                .readTimeout(Constants.CONNECTION_TIMEOUT, TimeUnit.SECONDS)
+                .connectTimeout(CONNECTION_TIMEOUT, TimeUnit.SECONDS)
+                .readTimeout(CONNECTION_TIMEOUT, TimeUnit.SECONDS)
                 .build()
     }
 
@@ -74,4 +73,8 @@ class NetworkModule {
 
     @Provides
     fun providesListOfJokesApi(retrofit: Retrofit): ListOfJokesApi = retrofit.create(ListOfJokesApi::class.java)
+
+    companion object {
+        const val CONNECTION_TIMEOUT = 15L
+    }
 }

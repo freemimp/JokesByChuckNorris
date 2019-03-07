@@ -1,26 +1,42 @@
 package com.freemimp.android.jokesbychucknorris.ui.home
 
-import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
 import com.freemimp.android.jokesbychucknorris.restapi.RandomJokeApi
+import com.freemimp.android.jokesbychucknorris.utils.SingleLiveEvent
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
+import java.net.UnknownHostException
 import javax.inject.Inject
 
 class HomeViewModel @Inject constructor(private val randomJokeApi: RandomJokeApi) : ViewModel() {
 
-    var errorResponse = MutableLiveData<String?>()
+    val errorResponse = SingleLiveEvent<String?>()
+    val joke = SingleLiveEvent<String>()
 
-    suspend fun getRandomJoke(): String {
-        var response = ""
-        val retrofitResponse = randomJokeApi.getRandomJokeAsync().await()
-        if (retrofitResponse.isSuccessful) {
-            response = randomJokeApi.getRandomJokeAsync().await().body()?.value?.joke ?: ""
-        } else {
-            withContext(Dispatchers.Main) {
-                errorResponse.value = ("Server error:${retrofitResponse.code()}, ${retrofitResponse.errorBody().toString()}")
+    fun getRandomJoke() {
+        CoroutineScope(Dispatchers.IO).launch {
+            try {
+                val retrofitResponse =
+                        randomJokeApi.getRandomJokeAsync().await()
+                //normally I would implement repository interface to hide network logic in it,
+                // but I wanted to save some time and app is small as well
+                if (retrofitResponse.isSuccessful) {
+                    delay(DELAY)
+                    joke.postValue(randomJokeApi.getRandomJokeAsync().await().body()?.value?.joke
+                            ?: "")
+                } else {
+                    errorResponse.value =
+                            ("Server error:${retrofitResponse.code()}, ${retrofitResponse.errorBody().toString()}")
+                }
+            } catch (e: UnknownHostException) {
+                errorResponse.postValue("Can't reach server, please check your internet connection")
             }
         }
-        return response
+    }
+
+    companion object {
+        const val DELAY = 3000L
     }
 }
