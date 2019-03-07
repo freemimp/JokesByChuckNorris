@@ -13,7 +13,6 @@ import com.freemimp.android.jokesbychucknorris.ui.namedjoke.NamedJokeFragment
 import com.freemimp.android.jokesbychucknorris.utils.replaceFragment
 import com.freemimp.android.jokesbychucknorris.utils.showJokeDialog
 import com.freemimp.android.jokesbychucknorris.utils.snackbar
-import com.freemimp.android.jokesbychucknorris.utils.toast
 import dagger.android.support.DaggerFragment
 import kotlinx.android.synthetic.main.home_fragment.listOfJokesButton
 import kotlinx.android.synthetic.main.home_fragment.randomJokeButton
@@ -47,7 +46,6 @@ class HomeFragment : DaggerFragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View {
         return inflater.inflate(R.layout.home_fragment, container, false)
-
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -65,7 +63,7 @@ class HomeFragment : DaggerFragment() {
                 withContext(Main) {
                     showJokeDialog(R.string.random_joke, joke)
                 }
-            } catch (e : UnknownHostException) {
+            } catch (e: UnknownHostException) {
                 snackbar("Can't reach server, please check your internet connection")
             }
         }
@@ -77,7 +75,7 @@ class HomeFragment : DaggerFragment() {
     }
 
     private fun goToListOfInfiniteJokes() {
-       replaceFragment(R.id.container, ListOfJokesFragment.newInstance(), ListOfJokesFragment.Tag)
+        replaceFragment(R.id.container, ListOfJokesFragment.newInstance(), ListOfJokesFragment.Tag)
     }
 
     companion object {

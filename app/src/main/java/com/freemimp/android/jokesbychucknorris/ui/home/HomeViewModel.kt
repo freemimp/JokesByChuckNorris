@@ -2,20 +2,24 @@ package com.freemimp.android.jokesbychucknorris.ui.home
 
 import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
-import com.freemimp.android.jokesbychucknorris.restapi.RandomJokeController
+import com.freemimp.android.jokesbychucknorris.restapi.RandomJokeApi
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
-class HomeViewModel @Inject constructor(private val randomJokeController: RandomJokeController) : ViewModel() {
+class HomeViewModel @Inject constructor(private val randomJokeApi: RandomJokeApi) : ViewModel() {
 
     var errorResponse = MutableLiveData<String?>()
 
     suspend fun getRandomJoke(): String {
         var response = ""
-        val retrofitResponse = randomJokeController.getRandomJokeAsync().await()
+        val retrofitResponse = randomJokeApi.getRandomJokeAsync().await()
         if (retrofitResponse.isSuccessful) {
-            response = randomJokeController.getRandomJokeAsync().await().body()?.value?.joke ?: ""
+            response = randomJokeApi.getRandomJokeAsync().await().body()?.value?.joke ?: ""
         } else {
-            errorResponse.value = ("Server error:${retrofitResponse.code()}, ${retrofitResponse.errorBody().toString()}")
+            withContext(Dispatchers.Main) {
+                errorResponse.value = ("Server error:${retrofitResponse.code()}, ${retrofitResponse.errorBody().toString()}")
+            }
         }
         return response
     }

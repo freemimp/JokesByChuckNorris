@@ -4,9 +4,9 @@ import android.content.Context
 import android.util.Log
 import com.freemimp.android.jokesbychucknorris.BuildConfig
 import com.freemimp.android.jokesbychucknorris.di.annotations.AppContext
-import com.freemimp.android.jokesbychucknorris.restapi.ListOfJokesController
-import com.freemimp.android.jokesbychucknorris.restapi.NamedRandomJokeController
-import com.freemimp.android.jokesbychucknorris.restapi.RandomJokeController
+import com.freemimp.android.jokesbychucknorris.restapi.ListOfJokesApi
+import com.freemimp.android.jokesbychucknorris.restapi.NamedRandomJokeApi
+import com.freemimp.android.jokesbychucknorris.restapi.RandomJokeApi
 import com.freemimp.android.jokesbychucknorris.utils.Constants
 import com.google.gson.Gson
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
@@ -67,11 +67,11 @@ class NetworkModule {
     }
 
     @Provides
-    fun providesRandomJokeController(retrofit: Retrofit): RandomJokeController = retrofit.create(RandomJokeController::class.java)
+    fun providesRandomJokeApi(retrofit: Retrofit): RandomJokeApi = retrofit.create(RandomJokeApi::class.java)
 
     @Provides
-    fun providesNamedRandomJokeController(retrofit: Retrofit): NamedRandomJokeController = retrofit.create(NamedRandomJokeController::class.java)
+    fun providesNamedRandomJokeApi(retrofit: Retrofit): NamedRandomJokeApi = retrofit.create(NamedRandomJokeApi::class.java)
 
     @Provides
-    fun providesListOfJokesController(retrofit: Retrofit): ListOfJokesController = retrofit.create(ListOfJokesController::class.java)
+    fun providesListOfJokesApi(retrofit: Retrofit): ListOfJokesApi = retrofit.create(ListOfJokesApi::class.java)
 }

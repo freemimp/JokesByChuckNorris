@@ -31,6 +31,7 @@ class NamedJokeFragment : DaggerFragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        viewModel = ViewModelProviders.of(this, viewModelFactory).get(NamedJokeViewModel::class.java)
         viewModel.errorResponse.observe(this, Observer { errorResponse ->
             errorResponse?.let {
                 snackbar(errorResponse)
@@ -41,11 +42,6 @@ class NamedJokeFragment : DaggerFragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.named_joke_fragment, container, false)
-    }
-
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProviders.of(this, viewModelFactory).get(NamedJokeViewModel::class.java)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -60,7 +56,6 @@ class NamedJokeFragment : DaggerFragment() {
                 val name = nameEditText.text.toString()
                 try {
                     val joke = viewModel.getNamedRandomJoke(name)
-                    delay(3000)
                     withContext(Dispatchers.Main) {
                         showJokeDialog(R.string.random_joke_with_name, joke)
                     }

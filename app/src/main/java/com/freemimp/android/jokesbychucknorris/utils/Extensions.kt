@@ -22,7 +22,7 @@ fun Fragment.snackbar(msg: String, view: View? = activity?.findViewById(android.
     }
 }
 
-fun Fragment.toast(text: String) = activity?.let {  Toast.makeText(activity, text, Toast.LENGTH_SHORT).show() }
+fun Fragment.toast(text: String) = activity?.let {  Toast.makeText(requireContext(), text, Toast.LENGTH_SHORT).show() }
 
 fun Fragment.replaceFragment(viewGroupId: Int, fragment: Fragment, tag: String) {
     activity?.supportFragmentManager?.beginTransaction()
