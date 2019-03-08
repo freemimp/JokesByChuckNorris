@@ -13,13 +13,14 @@ import dagger.android.support.DaggerApplication
 import javax.inject.Singleton
 
 @Singleton
-@Component(modules = [AndroidSupportInjectionModule::class, AppModule::class, BuilderModule::class,NetworkModule::class, ViewModelModule::class])
+@Component(modules = [AndroidSupportInjectionModule::class, AppModule::class, BuilderModule::class, NetworkModule::class, ViewModelModule::class])
 interface AppComponent : AndroidInjector<DaggerApplication> {
 
     @Component.Builder
     interface Builder {
         @BindsInstance
         fun application(jokesApp: JokesApp): Builder
+
         fun build(): AppComponent
     }
 }
