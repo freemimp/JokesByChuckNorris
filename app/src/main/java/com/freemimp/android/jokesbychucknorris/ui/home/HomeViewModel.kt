@@ -31,7 +31,7 @@ class HomeViewModel @Inject constructor(private val randomJokeApi: RandomJokeApi
                             ("Server error:${retrofitResponse.code()}, ${retrofitResponse.errorBody().toString()}")
                 }
             } catch (e: UnknownHostException) {
-                errorResponse.postValue("Can't reach server, please check your internet connection")
+                errorResponse.postValue("Can't reach server, please check your internet connection") //normally have all string in values/strings.xml
             }
         }
     }
