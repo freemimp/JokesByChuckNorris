@@ -35,13 +35,13 @@ class HomeFragment : DaggerFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel = ViewModelProviders.of(this, viewModelFactory).get(HomeViewModel::class.java)
-        viewModel.errorResponse.observe(this, Observer { errorResponse ->
+        viewModel.getError().observe(this, Observer { errorResponse ->
             errorResponse?.let {
                 snackbar(errorResponse)
             }
         })
 
-        viewModel.joke.observe(this, Observer { joke ->
+        viewModel.showRandomJoke().observe(this, Observer { joke ->
             joke?.let {
                 showJokeDialog(R.string.random_joke, joke)
             }

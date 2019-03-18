@@ -3,13 +3,14 @@ package com.freemimp.android.jokesbychucknorris.ui.listofjokes
 import android.arch.lifecycle.ViewModel
 import android.arch.paging.LivePagedListBuilder
 import android.arch.paging.PagedList
+import com.freemimp.android.jokesbychucknorris.repository.Repository
 import com.freemimp.android.jokesbychucknorris.restapi.request.Value
 import com.freemimp.android.jokesbychucknorris.ui.listofjokes.pagination.JokeDataSource
 import com.freemimp.android.jokesbychucknorris.ui.listofjokes.pagination.JokesDataSourceFactory
 import com.freemimp.android.jokesbychucknorris.utils.SingleLiveEvent
 import javax.inject.Inject
 
-class ListOfJokesViewModel @Inject constructor(private val jokesDataSourceFactory: JokesDataSourceFactory, jokeDataSource: JokeDataSource)
+class ListOfJokesViewModel @Inject constructor(jokesDataSourceFactory: JokesDataSourceFactory, val repository: Repository)
     : ViewModel() {
 
     private val pageListConfig = PagedList.Config.Builder()
@@ -23,7 +24,7 @@ class ListOfJokesViewModel @Inject constructor(private val jokesDataSourceFactor
 
 
     fun getError(): SingleLiveEvent<String> {
-        return jokesDataSourceFactory.dataSource.errorResponse
+        return repository.errorResponse
     }
 
     companion object {

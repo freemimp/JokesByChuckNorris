@@ -5,7 +5,7 @@ import com.freemimp.android.jokesbychucknorris.restapi.request.Value
 import javax.inject.Inject
 
 class JokesDataSourceFactory @Inject constructor(
-        val dataSource: JokeDataSource
+        private val dataSource: JokeDataSource
 ) : DataSource.Factory<Int, Value>() {
 
     override fun create(): DataSource<Int, Value> = dataSource
