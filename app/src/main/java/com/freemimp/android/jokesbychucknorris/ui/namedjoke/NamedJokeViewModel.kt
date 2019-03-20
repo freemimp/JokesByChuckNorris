@@ -12,6 +12,9 @@ import javax.inject.Inject
 
 class NamedJokeViewModel @Inject constructor(private val repository: Repository) : ViewModel() {
 
+    val joke = repository.namedJoke
+    val errorResponse = repository.errorResponse
+
     fun getNamedRandomJoke(name: String) {
         val firstName = name.trim().substringBeforeLast(" ").capitalize()
         val lastName = name.trim().substringAfterLast(" ").capitalize()
@@ -21,7 +24,7 @@ class NamedJokeViewModel @Inject constructor(private val repository: Repository)
     }
 
     fun showRandomNamedJoke(): SingleLiveEvent<String> {
-        return repository.joke
+        return repository.namedJoke
     }
 
     fun getError(): SingleLiveEvent<String> {

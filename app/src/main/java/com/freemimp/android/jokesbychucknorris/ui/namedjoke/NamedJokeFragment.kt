@@ -32,14 +32,14 @@ class NamedJokeFragment : DaggerFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel = ViewModelProviders.of(this, viewModelFactory).get(NamedJokeViewModel::class.java)
-        viewModel.getError().observe(this, Observer { errorResponse ->
+        viewModel.errorResponse.observe(this, Observer { errorResponse ->
             errorResponse?.let {
                 hideKeyboard()
                 snackbar(errorResponse)
             }
         })
 
-        viewModel.showRandomNamedJoke().observe(this, Observer { joke ->
+        viewModel.joke.observe(this, Observer { joke ->
             joke?.let {
                 hideKeyboard()
                 showJokeDialog(R.string.random_joke_with_name, joke)
