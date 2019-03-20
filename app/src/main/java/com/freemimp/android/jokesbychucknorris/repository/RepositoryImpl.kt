@@ -1,6 +1,7 @@
 package com.freemimp.android.jokesbychucknorris.repository
 
 import android.util.Log
+import com.freemimp.android.jokesbychucknorris.R
 import com.freemimp.android.jokesbychucknorris.restapi.ListOfJokesApi
 import com.freemimp.android.jokesbychucknorris.restapi.NamedRandomJokeApi
 import com.freemimp.android.jokesbychucknorris.restapi.RandomJokeApi
@@ -16,9 +17,6 @@ class RepositoryImpl @Inject constructor(private val listOfJokesApi: ListOfJokes
                                          private val namedRandomJokeApi: NamedRandomJokeApi)
     : Repository {
     override val errorResponse = SingleLiveEvent<String>()
-    override val joke = SingleLiveEvent<String>()
-    override val namedJoke = SingleLiveEvent<String>()
-
 
     override suspend fun fetchListOfJokes(): List<Value> {
         val listOfJokeValues = mutableListOf<Value>()
@@ -45,10 +43,10 @@ class RepositoryImpl @Inject constructor(private val listOfJokesApi: ListOfJokes
     override suspend fun fetchRandomJoke(): JokeApiResponse {
         return try {
              val retrofitResponse = randomJokeApi.getRandomJokeAsync().await()
-
              if (retrofitResponse.isSuccessful) {
                  delay(DELAY)
-                 JokeApiResponse(randomJokeApi.getRandomJokeAsync().await().body()?.value?.joke, null)
+                 JokeApiResponse(retrofitResponse.body()?.value?.joke, null)
+
              } else {
                  JokeApiResponse(null, "Server error:${retrofitResponse.code()}, ${retrofitResponse.errorBody().toString()}")
              }
@@ -57,22 +55,16 @@ class RepositoryImpl @Inject constructor(private val listOfJokesApi: ListOfJokes
          }
     }
 
-    override suspend fun fetchRandomNamedJoke(firstName: String, lastName: String) {
-        try {
+    override suspend fun fetchRandomNamedJoke(firstName: String, lastName: String): JokeApiResponse {
+      return try {
             val retrofitResponse = namedRandomJokeApi.getRandomNamedJokeAsync(firstName, lastName).await()
-
             if (retrofitResponse.isSuccessful) {
-
-                namedJoke.postValue(namedRandomJokeApi
-                        .getRandomNamedJokeAsync(firstName, lastName).await().body()?.value?.joke
-                        ?: "")
+                JokeApiResponse(retrofitResponse.body()?.value?.joke, null)
             } else {
-                errorResponse
-                        .postValue("Server error:${retrofitResponse.code()}, ${retrofitResponse.errorBody().toString()}")
+                JokeApiResponse(null,"Server error:${retrofitResponse.code()}, ${retrofitResponse.errorBody().toString()}")
             }
         } catch (e: UnknownHostException) {
-            errorResponse
-                    .postValue("Can't reach server, please check your internet connection ")
+            JokeApiResponse(null,"Can't reach server, please check your internet connection ")
         }
     }
 

@@ -35,7 +35,7 @@ class HomeFragment : DaggerFragment() {
         viewModel.joke.observe(this, Observer { resource ->
             when (resource) {
                 is Resource.Joke -> {
-                    Log.d("HomeFragment", "showDialog with Joke")
+                    Log.d(Tag, "showDialog with Joke")
                     showJokeDialog(R.string.random_joke, resource.joke)
                 }
                 is Resource.Error -> {
@@ -79,6 +79,7 @@ class HomeFragment : DaggerFragment() {
     }
 
     companion object {
+        val Tag: String = NamedJokeFragment::class.java.simpleName
         fun newInstance() = HomeFragment()
     }
 
