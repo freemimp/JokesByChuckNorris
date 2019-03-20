@@ -3,6 +3,7 @@ package com.freemimp.android.jokesbychucknorris.ui.home
 import android.arch.core.util.Function
 import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.MediatorLiveData
+import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.Transformations
 import android.arch.lifecycle.ViewModel
 import com.freemimp.android.jokesbychucknorris.repository.Repository
@@ -20,25 +21,21 @@ class HomeViewModel @Inject constructor(private val repository: Repository) : Vi
     private val _joke = MediatorLiveData<Resource>()
     val joke: LiveData<Resource> = _joke
 
-    private var _randomJokeSource: LiveData<JokeApiResponse>? = null
-
     fun getRandomJoke() {
-        _randomJokeSource = null
         CoroutineScope(Dispatchers.IO).launch {
-            val source: LiveData<JokeApiResponse> = _randomJokeSource ?: repository.fetchRandomJoke()
+            val source = MutableLiveData<JokeApiResponse>()
+            source.postValue(repository.fetchRandomJoke())
 
             val mappedResponse = Transformations.map(source, object : Function<JokeApiResponse, Resource> {
                 override fun apply(response: JokeApiResponse): Resource {
                     return if (response.joke.isNullOrBlank()) {
-                        Resource.Error(Event(response.error ?: ""))
+                        Resource.Error(Event(response.error ?: "Unknown Error"))
                     } else {
                         Resource.Joke(response.joke)
                     }
                 }
             })
             _joke.removeSource(source)
-
-            _randomJokeSource = source
 
             withContext(Dispatchers.Main) {
                 _joke.addSource(mappedResponse) {

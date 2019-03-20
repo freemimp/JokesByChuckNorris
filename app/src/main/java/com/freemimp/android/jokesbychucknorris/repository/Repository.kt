@@ -12,7 +12,7 @@ interface Repository {
     val namedJoke: SingleLiveEvent<String>
 
     suspend fun fetchListOfJokes(): List<Value>
-    suspend fun fetchRandomJoke(): LiveData<JokeApiResponse>
+    suspend fun fetchRandomJoke(): JokeApiResponse
     suspend fun fetchRandomNamedJoke(firstName: String, lastName: String)
     suspend fun fetchTotalCountOfJokes(): Int
 }
