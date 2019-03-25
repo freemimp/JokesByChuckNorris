@@ -1,4 +1,4 @@
-package com.freemimp.android.jokesbychucknorris.ui.home
+package com.freemimp.android.jokesbychucknorris.ui.namedjoke
 
 import android.arch.core.util.Function
 import android.arch.lifecycle.LiveData
@@ -10,21 +10,24 @@ import com.freemimp.android.jokesbychucknorris.repository.Repository
 import com.freemimp.android.jokesbychucknorris.restapi.request.JokeApiResponse
 import com.freemimp.android.jokesbychucknorris.utils.Event
 import com.freemimp.android.jokesbychucknorris.utils.Resource
+import com.freemimp.android.jokesbychucknorris.utils.SingleLiveEvent
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
-class HomeViewModel @Inject constructor(private val repository: Repository) : ViewModel() {
+class NamedJokeViewModel @Inject constructor(private val repository: Repository) : ViewModel() {
 
-    private val _joke = MediatorLiveData<Resource>()
-    val joke: LiveData<Resource> = _joke
+    private val _namedJoke = MediatorLiveData<Resource>()
+    val namedJoke: LiveData<Resource> = _namedJoke
 
-    fun getRandomJoke() {
+    fun getNamedRandomJoke(name: String) {
+        val firstName = name.trim().substringBeforeLast(" ").capitalize()
+        val lastName = name.trim().substringAfterLast(" ").capitalize()
         CoroutineScope(Dispatchers.IO).launch {
             val source = MutableLiveData<JokeApiResponse>()
-            source.postValue(repository.fetchRandomJoke())
+            source.postValue(repository.fetchRandomNamedJoke(firstName, lastName))
 
             val mappedResponse = Transformations.map(source, object : Function<JokeApiResponse, Resource> {
                 override fun apply(response: JokeApiResponse): Resource {
@@ -35,14 +38,13 @@ class HomeViewModel @Inject constructor(private val repository: Repository) : Vi
                     }
                 }
             })
-            _joke.removeSource(source)
+            _namedJoke.removeSource(source)
 
             withContext(Dispatchers.Main) {
-                _joke.addSource(mappedResponse) {
-                    _joke.value = it
+                _namedJoke.addSource(mappedResponse) {
+                    _namedJoke.value = it
                 }
             }
         }
     }
 }
-
