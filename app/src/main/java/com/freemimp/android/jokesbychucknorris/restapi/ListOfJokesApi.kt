@@ -12,5 +12,5 @@ interface ListOfJokesApi {
     fun getListOfJokesAsync(): Deferred<Response<RandomJokeListModel>>
 
     @GET("count")
-    fun getTotalCountOfJokesAsync():Deferred<JokeCountModel>
+    fun getTotalCountOfJokesAsync():Deferred<Response<JokeCountModel>>
 }
